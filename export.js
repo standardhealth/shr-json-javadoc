@@ -61,7 +61,7 @@ class SHR {
     }
 
     for (const de of cimcore.dataElements) {
-      const deClone = Object.assign({}, de);
+      const deClone = JSON.parse(JSON.stringify(de));
       this.elements.add(deClone);
       const element = this.elements.get(deClone.fqn);
       const namespace = this.namespaces.get(element.namespace);
