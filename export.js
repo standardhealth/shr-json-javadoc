@@ -4,7 +4,7 @@ const path = require('path');
 const bunyan = require('bunyan');
 const ncp = require('ncp').ncp;
 const Namespaces = require('./components/namespaces');
-const Elements = require('./components/Elements');
+const Elements = require('./components/elements');
 
 var rootLogger = bunyan.createLogger({ name: 'shr-json-javadoc' });
 var logger = rootLogger;
