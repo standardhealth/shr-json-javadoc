@@ -154,9 +154,6 @@ class Constraints {
     const element = this.elements[constraint.fqn];
     if (element) {
       constraintName = (this.field.valueType === 'RefValue') ? `ref(${element.name})` : element.name;
-      if (this.field.valueType === 'RefValue') {
-        constraintName = `${constraintName}`; //TODO: This doesn't do anything...
-      }
 
       href = `../${element.namespacePath}/${element.name}.html`;
     } else if (constraint.fqn.indexOf('.') == -1) { //If primitive FQN
