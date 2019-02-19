@@ -38,7 +38,10 @@ function makeHtml(md) {
 // Function to generate and write html from an ejs template
 function renderEjsFile(template, pkg, destination) {
   ejs.renderFile(path.join(__dirname, template), Object.assign(pkg, {makeHtml: makeHtml}), (error, htmlText) => {
-    if (error) logger.error('Error rendering model doc: %s', error);
+    if (error) {
+      //13080, 'Error rendering model doc: ${errorText}',  'Unknown' , 'errorNumber'
+      logger.error({errorText: error }, '13080' );
+    }
     else fs.writeFileSync(destination, htmlText);
   });
 }
@@ -98,7 +101,8 @@ class SHR {
   copyRequiredFiles() {
     ncp(path.join(__dirname, 'required'), this.outDirectory, (error) => {
       if (error) {
-        logger.error('Error copying files for export of model doc: %s', error);
+        //13081, 'Error copying files for export of model doc: ${errorText}',  'Unknown' , 'errorNumber'
+        logger.error({errorText : error},'13081' );
         return;
       }
     });
