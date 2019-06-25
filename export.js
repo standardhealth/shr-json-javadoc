@@ -39,8 +39,8 @@ function makeHtml(md) {
 function renderEjsFile(template, pkg, destination) {
   ejs.renderFile(path.join(__dirname, template), Object.assign(pkg, {makeHtml: makeHtml}), (error, htmlText) => {
     if (error) {
-      //13080, 'Error rendering model doc: ${errorText}',  'Unknown' , 'errorNumber'
-      logger.error({errorText: error }, '13080' );
+      // 17001, 'Error rendering model doc: ${errorText}',  'Unknown' , 'errorNumber'
+      logger.error({errorText: error }, '17001' );
     }
     else fs.writeFileSync(destination, htmlText);
   });
@@ -67,7 +67,8 @@ class SHR {
   // Read in the canonical json files
   // Assumes first level of directories are namespaces
   readFiles(cimcore) {
-    logger.info('Compiling Documentation for %s namespaces...', Object.keys(cimcore.namespaces).length);
+    // 07002, 'Compiling Documentation for ${count} namespaces...',,
+    logger.info({ count: Object.keys(cimcore.namespaces).length }, '07002');
     this.metaData = cimcore.projectInfo;
     for (const ns in cimcore.namespaces) {
       const namespace = this.namespaces.get(ns);
@@ -101,8 +102,8 @@ class SHR {
   copyRequiredFiles() {
     ncp(path.join(__dirname, 'required'), this.outDirectory, (error) => {
       if (error) {
-        //13081, 'Error copying files for export of model doc: ${errorText}',  'Unknown' , 'errorNumber'
-        logger.error({errorText : error},'13081' );
+        // 17002, 'Error copying files for export of model doc: ${errorText}',  'Unknown' , 'errorNumber'
+        logger.error({errorText : error},'17002' );
         return;
       }
     });
@@ -152,7 +153,8 @@ class SHR {
 
   // Builds pages for each data element
   buildDataElements() {
-    logger.info('Building documentation pages for %s elements...', this.elements.list().length);
+    // 07003, 'Building documentation pages for ${count} elements...',,
+    logger.info({ count: this.elements.list().length }, '07003');
     for (const element of this.elements.list()) {
       const ejsPkg = { element: element, metaData: this.metaData  };
       const fileName = `${element.name}.html`;
