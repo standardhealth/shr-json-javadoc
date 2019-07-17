@@ -6,15 +6,19 @@
   <meta name="date" content="2016-01-11"/>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style"/>
+  <script src="resources/jquery.min.js"></script>
+  <script src="resources/classFilter.js"></script>
 </head>
 <body>
-<h1 class="bar">All Classes</h1>
-<div class="indexContainer">
-  <ul>
-  <% elements.forEach((element) => { -%>
-  <li><a href="<%= element.namespacePath %>/<%= element.name %>.html" title="class in <%= element.namespacePath %>.<%= element.name %>" target="classFrame"><%= element.name %></a></li>
-  <% }) -%>
-  </ul>
-</div>
+  <h1 class="bar">All Classes</h1>
+  <div class="indexContainer">
+    <input type="text" id="class-filter" autocomplete="off"/>
+    <ul>
+      <% elements.forEach((element) => { -%>
+      <li><a href="<%= element.namespacePath %>/<%= element.name %>.html" title="class in <%= element.namespacePath %>.<%= element.name %>" target="classFrame"><%= element.name %></a></li>
+      <% }) -%>
+    </ul>
+    <p id="no-match" style="display: none;">No matching classes.</p>
+  </div>
 </body>
 </html>

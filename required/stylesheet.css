@@ -260,6 +260,9 @@ Page layout container styles
 .indexContainer ul li {
     list-style:none;
 }
+.indexContainer input#class-filter {
+    margin-bottom: 0.5em;
+}
 .contentContainer .description dl dt, .contentContainer .details dl dt, .serializedFormContainer dl dt {
     font-size:1.1em;
     font-weight:bold;
