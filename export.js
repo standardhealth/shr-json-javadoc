@@ -120,7 +120,7 @@ class SHR {
     for (const namespace of this.namespaces.list()) {
       const fileName = `${namespace.path}-info.html`;
       const filePath = path.join(this.outDirectory, namespace.path, fileName);
-      const ejsPkg = { namespace: namespace, metaData: this.metaData  };
+      const ejsPkg = { namespace: namespace, elements: this.elements, metaData: this.metaData  };
       renderEjsFile('templates/info.ejs', ejsPkg, filePath);
     }
   }
