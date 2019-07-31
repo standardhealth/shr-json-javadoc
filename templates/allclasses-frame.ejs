@@ -10,12 +10,22 @@
   <script src="resources/classFilter.js"></script>
 </head>
 <body>
-  <h1 class="bar">All Classes</h1>
+  <h1 class="bar"><span id="shown-classes">All Classes</span>&nbsp;in&nbsp;All Namespaces</h1>
   <div class="indexContainer">
-    <input type="text" id="class-filter" autocomplete="off"/>
+    <div class="filter-container">
+      <label><input type="radio" name="class-type-filter" value="all" checked="checked">All Classes</input></label>
+      <label><input type="radio" name="class-type-filter" value="entry">Entries</input></label>
+    </div>
+    <div class="filter-container">
+      <label><input type="radio" name="class-type-filter" value="group">Groups</input></label>
+      <label><input type="radio" name="class-type-filter" value="element">Elements</input></label>
+    </div>
+    <div class="filter-container">
+      <input type="text" id="class-name-filter" autocomplete="off"/>
+    </div>
     <ul>
       <% elements.forEach((element) => { -%>
-      <li><a href="<%= element.namespacePath %>/<%= element.name %>.html" title="class in <%= element.namespacePath %>.<%= element.name %>" target="classFrame"><%= element.name %></a></li>
+      <li class="<%= element.cssClass %>"><a href="<%= element.namespacePath %>/<%= element.name %>.html" title="class in <%= element.namespacePath %>.<%= element.name %>" target="classFrame"><%= element.name %></a></li>
       <% }) -%>
     </ul>
     <p id="no-match" style="display: none;">No matching classes.</p>

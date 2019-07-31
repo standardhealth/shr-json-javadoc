@@ -19,14 +19,15 @@
 </head>
 <body>
 <h1 title="<%= metaData.projectShorthand %> Reference Model Specification" class="bar"><strong><%= metaData.projectShorthand %> Reference Model Specification</strong></h1>
-<div class="indexHeader"><a href="allclasses-frame.html" target="packageFrame">All Classes</a></div>
+<div class="indexHeader"></div>
 <div class="indexContainer">
   <h2 title="Namespaces">Namespaces</h2>
   <ul title="Namespaces">
-  <% namespaces.forEach((namespace) => { -%>
-  <li><a name="<%= namespace.name %>" href="#" onclick="loadPackageFrames('<%= namespace.path %>/<%= namespace.path %>-pkg.html','<%= namespace.path %>/<%= namespace.path %>-info.html')"><%= namespace.name %></a></li>
-  <% }) -%>
-</ul>
+    <li><label class="namespace-selector"><input type="radio" name="namespace-selector" oninput="parent.packageFrame.location = 'allclasses-frame.html'" value="allNamespaces" checked="checked"/>All Namespaces</label></li>
+    <% namespaces.forEach((namespace) => { -%>
+      <li><label class="namespace-selector"><input type="radio" name="namespace-selector" oninput="loadPackageFrames('<%= namespace.path %>/<%= namespace.path %>-pkg.html','<%= namespace.path %>/<%= namespace.path %>-info.html')" value="<%= namespace.path %>/<%= namespace.name %>"/><%= namespace.name %></label></li>
+    <% }) -%>
+  </ul>
 </div>
 <p>&nbsp;</p>
 </body>
