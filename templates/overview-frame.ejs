@@ -11,8 +11,17 @@
   //<![CDATA[
     function loadPackageFrames(pkgContent, pkgInfo)
     {
-      parent.packageFrame.location=pkgContent;
-      parent.classFrame.location=pkgInfo;
+      var contents = {
+        "packageFrame": pkgContent,
+        "classFrame": pkgInfo
+      };
+      var targetOrigin = "";
+      if(this.location.protocol == "file:") {
+      targetOrigin = "*";
+      } else {
+        targetOrigin = this.location.protocol + "//" + this.location.hostname + (this.location.port ? ":" + this.location.port : "");
+      }
+      parent.postMessage(contents, targetOrigin);
     }
   //]]>
   </script>
@@ -23,9 +32,9 @@
 <div class="indexContainer">
   <h2 title="Namespaces">Namespaces</h2>
   <ul title="Namespaces">
-    <li><label class="namespace-selector"><input type="radio" name="namespace-selector" oninput="parent.packageFrame.location = 'allclasses-frame.html'" value="allNamespaces" checked="checked"/>All Namespaces</label></li>
+    <li><label class="namespace-selector"><input type="radio" name="namespace-selector" onchange="loadPackageFrames('allclasses-frame.html', '')" value="allNamespaces" checked="checked"/>All Namespaces</label></li>
     <% namespaces.forEach((namespace) => { -%>
-      <li><label class="namespace-selector"><input type="radio" name="namespace-selector" oninput="loadPackageFrames('<%= namespace.path %>/<%= namespace.path %>-pkg.html','<%= namespace.path %>/<%= namespace.path %>-info.html')" value="<%= namespace.path %>/<%= namespace.name %>"/><%= namespace.name %></label></li>
+      <li><label class="namespace-selector"><input type="radio" name="namespace-selector" onchange="loadPackageFrames('<%= namespace.path %>/<%= namespace.path %>-pkg.html','<%= namespace.path %>/<%= namespace.path %>-info.html')" value="<%= namespace.path %>/<%= namespace.name %>"/><%= namespace.name %></label></li>
     <% }) -%>
   </ul>
 </div>

@@ -11,7 +11,7 @@ $(window).on('load', function() {
       } else if(classFilter == 'element' && !li.hasClass('element')) {
         return false;
       } else {
-        return li.find('a').text().toLowerCase().includes(matchText);
+        return li.find('a').text().toLowerCase().indexOf(matchText) > -1;
       }
     });
     if(toShow.length == 0) {
