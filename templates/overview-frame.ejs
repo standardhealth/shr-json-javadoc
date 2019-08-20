@@ -32,7 +32,7 @@
 <div class="indexContainer">
   <h2 title="Namespaces">Namespaces</h2>
   <ul title="Namespaces">
-    <li><label class="namespace-selector"><input type="radio" name="namespace-selector" onchange="loadPackageFrames('allclasses-frame.html', '')" value="allNamespaces" checked="checked"/>All Namespaces</label></li>
+    <li><label class="namespace-selector"><input type="radio" name="namespace-selector" onchange="loadPackageFrames('allclasses-frame.html', 'overview-summary.html')" value="allNamespaces" checked="checked"/>All Namespaces</label></li>
     <% namespaces.forEach((namespace) => { -%>
       <li><label class="namespace-selector"><input type="radio" name="namespace-selector" onchange="loadPackageFrames('<%= namespace.path %>/<%= namespace.path %>-pkg.html','<%= namespace.path %>/<%= namespace.path %>-info.html')" value="<%= namespace.path %>/<%= namespace.name %>"/><%= namespace.name %></label></li>
     <% }) -%>
