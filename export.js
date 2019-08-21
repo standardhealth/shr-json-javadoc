@@ -40,7 +40,7 @@ function renderEjsFile(template, pkg, destination) {
   ejs.renderFile(path.join(__dirname, template), Object.assign(pkg, {makeHtml: makeHtml}), (error, htmlText) => {
     if (error) {
       // 17001, 'Error rendering model doc: ${errorText}',  'Unknown' , 'errorNumber'
-      logger.error({errorText: error }, '17001' );
+      logger.error({errorText: error.stack }, '17001' );
     }
     else fs.writeFileSync(destination, htmlText);
   });
@@ -103,7 +103,7 @@ class SHR {
     ncp(path.join(__dirname, 'required'), this.outDirectory, (error) => {
       if (error) {
         // 17002, 'Error copying files for export of model doc: ${errorText}',  'Unknown' , 'errorNumber'
-        logger.error({errorText : error},'17002' );
+        logger.error({errorText : error.stack},'17002' );
         return;
       }
     });
@@ -177,4 +177,8 @@ class SHR {
   }
 }
 
-module.exports = {setLogger, compileJavadoc, exportToPath};
+function errorFilePath() {
+  return require('path').join(__dirname, 'errorMessages.txt');
+}
+
+module.exports = {setLogger, compileJavadoc, exportToPath, errorFilePath};
