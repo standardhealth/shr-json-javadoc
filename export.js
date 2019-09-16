@@ -16,9 +16,9 @@ function setLogger(bunyanLogger) {
   require('./components/constraints').setLogger(logger);
 }
 
-function compileJavadoc(cimcore, outPath, configureForIG=false) {
+function compileJavadoc(modelDocConfig, outPath, configureForIG=false) {
   // Run main code
-  return new SHR(cimcore, outPath, configureForIG);
+  return new SHR(modelDocConfig, outPath, configureForIG);
 }
 
 function exportToPath(compiledSHR, outPath) {
@@ -48,33 +48,31 @@ function renderEjsFile(template, pkg, destination) {
  *  Uses Namespaces and Elements classes to hold the data.
  */
 class SHR {
-  constructor(cimcore, out, configureForIG) {
+  constructor(modelDocConfig, out, configureForIG) {
     this.outDirectory = out;
     this.configureForIG = configureForIG;
-    this.elements = new Elements(cimcore.projectInfo, configureForIG);
+    this.elements = new Elements(modelDocConfig.projectInfo, configureForIG);
     this.namespaces = new Namespaces();
     this.children = {};
-    this.readFiles(cimcore);
+    this.readConfig(modelDocConfig);
     this.elements.flatten();
   }
 
   set metaData(metaData) { this._metaData = metaData;}
   get metaData() { return this._metaData; }
 
-  // Read in the canonical json files
-  // Assumes first level of directories are namespaces
-  readFiles(cimcore) {
-    logger.info('Compiling Documentation for %s namespaces...', Object.keys(cimcore.namespaces).length);
-    this.metaData = cimcore.projectInfo;
-    for (const ns in cimcore.namespaces) {
-      const namespace = this.namespaces.get(ns);
-      namespace.description = cimcore.namespaces[ns].description;
+  // Populate namespaces and elements from config
+  readConfig(modelDocConfig) {
+    logger.info('Compiling Documentation for %s namespaces...', Object.keys(modelDocConfig.namespaces).length);
+    this.metaData = modelDocConfig.projectInfo;
+    for (const ns of modelDocConfig.namespaces) {
+      const namespace = this.namespaces.get(ns.namespace);
+      namespace.description = ns.description;
     }
 
-    for (const de of cimcore.dataElements) {
-      const deClone = JSON.parse(JSON.stringify(de));
-      this.elements.add(deClone);
-      const element = this.elements.get(deClone.fqn);
+    for (const de of modelDocConfig.dataElements) {
+      this.elements.add(de);
+      const element = this.elements.get(de.identifier.fqn);
       const namespace = this.namespaces.get(element.namespace);
       namespace.addElement(element);
       element.namespacePath = namespace.path;
