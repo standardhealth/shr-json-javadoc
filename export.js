@@ -38,7 +38,10 @@ function makeHtml(md) {
 // Function to generate and write html from an ejs template
 function renderEjsFile(template, pkg, destination) {
   ejs.renderFile(path.join(__dirname, template), Object.assign(pkg, {makeHtml: makeHtml}), (error, htmlText) => {
-    if (error) logger.error('Error rendering model doc: %s', error);
+    if (error) {
+      // 17001, 'Error rendering model doc: ${errorText}',  'Unknown' , 'errorNumber'
+      logger.error({errorText: error.stack }, '17001' );
+    }
     else fs.writeFileSync(destination, htmlText);
   });
 }
@@ -63,7 +66,8 @@ class SHR {
 
   // Populate namespaces and elements from config
   readConfig(modelDocConfig) {
-    logger.info('Compiling Documentation for %s namespaces...', Object.keys(modelDocConfig.namespaces).length);
+    // 07002, 'Compiling Documentation for ${count} namespaces...',,
+    logger.info({ count: Object.keys(modelDocConfig.namespaces).length }, '07002');
     this.metaData = modelDocConfig.projectInfo;
     for (const ns of modelDocConfig.namespaces) {
       const namespace = this.namespaces.get(ns.namespace);
@@ -96,7 +100,8 @@ class SHR {
   copyRequiredFiles() {
     ncp(path.join(__dirname, 'required'), this.outDirectory, (error) => {
       if (error) {
-        logger.error('Error copying files for export of model doc: %s', error);
+        // 17002, 'Error copying files for export of model doc: ${errorText}',  'Unknown' , 'errorNumber'
+        logger.error({errorText : error.stack},'17002' );
         return;
       }
     });
@@ -147,7 +152,8 @@ class SHR {
 
   // Builds pages for each data element
   buildDataElements() {
-    logger.info('Building documentation pages for %s elements...', this.elements.list().length);
+    // 07003, 'Building documentation pages for ${count} elements...',,
+    logger.info({ count: this.elements.list().length }, '07003');
     for (const element of this.elements.list()) {
       const ejsPkg = { element: element, metaData: this.metaData  };
       const fileName = `${element.name}.html`;
@@ -169,4 +175,8 @@ class SHR {
   }
 }
 
-module.exports = {setLogger, compileJavadoc, exportToPath};
+function errorFilePath() {
+  return require('path').join(__dirname, 'errorMessages.txt');
+}
+
+module.exports = {setLogger, compileJavadoc, exportToPath, errorFilePath};
