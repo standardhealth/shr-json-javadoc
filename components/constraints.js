@@ -10,9 +10,9 @@ function cardToString(card) {
   let min = 0;
   let max = '*';
   if (card) {
-    if (typeof card.min != 'undefined')
+    if (card.min != null)
       min = card.min;
-    if (typeof card.max != 'undefined')
+    if (card.max != null)
       max = card.max;
   }
   return `${min}..${max}`;
@@ -108,7 +108,7 @@ class Constraints {
 
   // Handles the includes code constraint
   includesCode(constraint, subpath) {
-    const system = constraint.code.system ? constraint.code.system : '';
+    const system = constraint.code.system || '';
     const name = 'Includes Code';
     const value = `${system} (code: ${constraint.code.code})`;
     const lastMod = constraint.lastModifiedBy.fqn;
@@ -197,7 +197,7 @@ class Constraints {
   buildFullPath(constraint) {
     if(constraint.path.length > 0) {
       return constraint.path.reduce((fullPath, pathPiece) => {
-        if(pathPiece.fqn in this.elements) {
+        if(pathPiece.namespace != 'primitive') {
           return `${fullPath}.${pathPiece.name}`;
         } else {
           return fullPath;
@@ -223,7 +223,7 @@ class Constraints {
       });
     }
     // Now look at the rest of the constraints
-    if ('constraints' in this.field && 'constraintsFilter' in this.field) {
+    if (this.field.constraints && this.field.constraintsFilter) {
       let constraintsFilter = this.field.constraintsFilter;
       constraintsFilter.type.constraints.forEach((typeCon) => {
         this.typeConstraint(typeCon, this.buildFullPath(typeCon));
