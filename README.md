@@ -1,3 +1,11 @@
+> # Content Has Moved!
+>
+> **The shr-json-javadoc repo has been integrated into the**
+> **[shr-tools](https://github.com/standardhealth/shr-tools) monorepo.  All further development**
+> **will be in [shr-tools/packages/shr-json-javadoc](https://github.com/standardhealth/shr-tools/tree/master/packages/shr-json-javadoc).**
+>
+> **Current releases can be found at [shr-tools/releases](https://github.com/standardhealth/shr-tools/releases).**
+
 # shr-json-javadoc
 
 This project will convert the canonical JSON files into HTML that form a javadoc style representation.
